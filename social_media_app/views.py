@@ -2,6 +2,7 @@ from django.shortcuts import render
 
 # Create your views here.
 def index_view(request):
+    print(request.user)
     return render(request, "index.html")
 
 def sign_up_view(request):

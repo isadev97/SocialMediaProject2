@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    {{request.user.id}}
+    {{request.user.email}}
     <h2>Hello world 2</h2>
 {% endblock %}
