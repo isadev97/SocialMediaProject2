@@ -1,7 +1,26 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    {{request.user.id}}
-    {{request.user.email}}
-    <h2>Hello world 2</h2>
+  {% if request.user.is_authenticated %}
+    <form method="POST" action="{% url 'create_post' %}">
+        {% csrf_token %}
+      <div class="form-floating">
+        <textarea class="form-control" placeholder="Leave your caption here" id="caption" name="caption" style="height: 100px"></textarea>
+        <label for="caption">Post your updates here !</label>
+      </div>
+      <button type="submit" class="btn btn-success">Post</button>
+    </form>
+    {% for post in post_list  %}
+    <div class="card" style="width: 18rem;">
+        <img src="..." class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">{{post.caption}}</h5>
+          <p class="card-text">{{post.user.username}}</p>
+          <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <div class="alert alert-warning" role="alert">You need to be logged in !</div>
+  {% endif %}
 {% endblock %}

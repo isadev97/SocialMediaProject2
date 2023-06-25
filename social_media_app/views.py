@@ -1,11 +1,14 @@
 from django.shortcuts import render, redirect
-from social_media_app.models import User
+from social_media_app.models import User, Post
 from django.contrib.auth.models import auth
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def index_view(request):
-    return render(request, "index.html")
+    data = {
+        "post_list" : Post.objects.all()
+    }
+    return render(request, "index.html", data)
 
 def sign_up_view(request):
     page_name= "signup.html"
@@ -51,7 +54,16 @@ def sign_in_view(request):
         # GET Method render the page
         return render(request, page_name)
 
-login_required(login_url='sign_in')
+@login_required(login_url='sign_in')
 def sign_out_view(request):
     auth.logout(request)
+    return redirect("index")
+
+@login_required(login_url='sign_in')
+def create_post_view(request):
+    caption = request.POST['caption']
+    post = Post.objects.create(
+        user=request.user,
+        caption=caption
+    )
     return redirect("index")
