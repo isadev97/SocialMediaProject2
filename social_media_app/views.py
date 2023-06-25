@@ -36,7 +36,20 @@ def sign_up_view(request):
         return render(request, page_name)
 
 def sign_in_view(request):
-    return render(request, "signin.html")
+    page_name = "signin.html"
+    if request.method == "POST":
+        # sign in logic
+        username = request.POST['username']
+        password = request.POST['password']
+        user = auth.authenticate(username=username, password=password)
+        if user:
+            auth.login(request, user)
+            return redirect("index")
+        else:
+            return render(request, page_name, {"error": True, "msg" : "Authentication could not happen"})
+    else: 
+        # GET Method render the page
+        return render(request, page_name)
 
 login_required(login_url='sign_in')
 def sign_out_view(request):
