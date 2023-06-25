@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from social_media_app.models import User, Post
+from social_media_app.models import User, Post, LikePost
 from django.contrib.auth.models import auth
 from django.contrib.auth.decorators import login_required
 
@@ -63,10 +63,23 @@ def sign_out_view(request):
 @login_required(login_url='sign_in')
 def create_post_view(request):
     if request.method == 'GET':
-        return render(request, "index.html", {"error": True, "msg" : "GET method not allowed"})    
+        return redirect("index")  
     caption = request.POST['caption']
-    post = Post.objects.create(
+    Post.objects.create(
         user=request.user,
         caption=caption
+    )
+    return redirect("index")
+
+@login_required(login_url='sign_in')
+def like_post_view(request, post_id):
+    if request.method == 'GET':
+        return redirect("index")
+    # post_id = request.POST['post_id']
+    print(request.POST)
+    print(request.POST['tmp_id'])
+    LikePost.objects.create(
+        user=request.user,
+        post_id=post_id
     )
     return redirect("index")

@@ -16,7 +16,13 @@
         <div class="card-body">
           <h5 class="card-title">{{post.caption}}</h5>
           <p class="card-text">{{post.user.username}}</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
+          {% if request.user.id != post.user.id %}
+            <form method="POST" action="{% url 'like_post' post.id %}">
+                {% csrf_token %}
+                <input type="hidden" value="{{post.id}}" name="tmp_id" id="tmp_id">
+                <button type="submit">Like</button>
+            </form>
+          {% endif %}
         </div>
       </div>
     {% endfor %}

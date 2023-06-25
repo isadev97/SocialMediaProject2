@@ -28,8 +28,8 @@ class Post(models.Model):
         
 
 class LikePost(models.Model):
-    user = models.ForeignKey(User, related_name='like_post', on_delete=models.CASCADE)
-    post = models.ForeignKey(Post, related_name='like_post', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name='like_post', on_delete=models.CASCADE) # user_id to use id directly
+    post = models.ForeignKey(Post, related_name='like_post', on_delete=models.CASCADE) # post_id to use id directly
     create_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
