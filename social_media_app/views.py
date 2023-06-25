@@ -4,9 +4,10 @@ from django.contrib.auth.models import auth
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
+# @login_required(login_url='sign_in')
 def index_view(request):
     data = {
-        "post_list" : Post.objects.all()
+        "post_list" : Post.objects.all() if request.user.is_authenticated else []
     }
     return render(request, "index.html", data)
 
@@ -61,6 +62,8 @@ def sign_out_view(request):
 
 @login_required(login_url='sign_in')
 def create_post_view(request):
+    if request.method == 'GET':
+        return render(request, "index.html", {"error": True, "msg" : "GET method not allowed"})    
     caption = request.POST['caption']
     post = Post.objects.create(
         user=request.user,
