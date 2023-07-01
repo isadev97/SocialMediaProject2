@@ -65,9 +65,11 @@ def create_post_view(request):
     if request.method == 'GET':
         return redirect("index")  
     caption = request.POST['caption']
+    image = request.FILES.get('post_image', None)
     Post.objects.create(
         user=request.user,
-        caption=caption
+        caption=caption,
+        image=image
     )
     return redirect("index")
 
