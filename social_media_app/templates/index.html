@@ -13,8 +13,11 @@
     </form>
     {% for post in post_list  %}
     <div class="card" style="width: 18rem;">
-        <img src="..." class="card-img-top" alt="...">
+     
         <div class="card-body">
+          {% if post.image and post.image.url %}
+          <img src="{{post.image.url}}" class="card-img-top" alt="...">
+        {% endif %} 
           <h5 class="card-title">{{post.caption}}</h5>
           <p class="card-text">{{post.user.username}}</p>
           {% if request.user.id != post.user.id %}
