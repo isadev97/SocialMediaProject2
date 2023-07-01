@@ -91,11 +91,16 @@ def my_profile_view(request):
     page_name = "profile.html"
     if request.method == 'POST':
         return redirect("index")
-    # data = {
-    #     "x",
-    #     "y",
-    #     "z"
-    # }
-    data = {}
+    qs = LikePost.objects.filter(post__user=request.user)
+    print(qs.query)
+    data = {
+        "number_of_posts_made_by_user" : request.user.post.all().count(), # or Post.objects.filter(user=request.user).count()
+        "number_of_likes_made_by_user": request.user.like_post.all().count(), # or LikePost.objects.filter(user=request.user).count()
+        "number_of_likes_received_for_user" : qs.count()
+    }
     return render(request, page_name, context=data)
     
+    
+    
+
+

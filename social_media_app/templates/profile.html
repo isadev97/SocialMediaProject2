@@ -2,10 +2,10 @@
 {% block content %}
 Hi {{request.user.username}}
 <br>
-you have posted x number of posts 
+you have posted {{number_of_posts_made_by_user}} number of posts 
 <br>
-you have made y number of likes 
+you have made {{number_of_likes_made_by_user}} number of likes 
 <br>
-you have received z number of likes 
+you have received {{number_of_likes_received_for_user}} number of likes 
 {% endblock %}
 
