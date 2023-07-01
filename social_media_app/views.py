@@ -85,3 +85,11 @@ def like_post_view(request, post_id):
         post_id=post_id
     )
     return redirect("index")
+
+@login_required(login_url='sign_in')
+def my_profile_view(request):
+    page_name = "profile.html"
+    if request.method == 'POST':
+        return redirect("index")
+    return render(request, page_name)
+    
