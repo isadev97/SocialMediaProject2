@@ -91,5 +91,11 @@ def my_profile_view(request):
     page_name = "profile.html"
     if request.method == 'POST':
         return redirect("index")
-    return render(request, page_name)
+    # data = {
+    #     "x",
+    #     "y",
+    #     "z"
+    # }
+    data = {}
+    return render(request, page_name, context=data)
     
