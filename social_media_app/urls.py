@@ -6,7 +6,8 @@ from social_media_app.views import (
     sign_out_view, 
     create_post_view,
     like_post_view,
-    my_profile_view
+    my_profile_view,
+    upload_profile_image
 )
 
 urlpatterns = [
@@ -16,5 +17,7 @@ urlpatterns = [
     path('sign-out/', sign_out_view, name="sign_out"),
     path('create-post/', create_post_view, name="create_post"),
     path('like-post/<int:post_id>/', like_post_view, name="like_post"),
-    path('my-profile/', my_profile_view, name="my_profile_view")
+    path('my-profile/', my_profile_view, name="my_profile"),
+    path('upload-profile-image/', upload_profile_image, name="upload_profile_image")
+    
 ]

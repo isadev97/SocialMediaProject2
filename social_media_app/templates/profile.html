@@ -1,11 +1,19 @@
 {% extends 'base.html' %}
 {% block content %}
 Hi {{request.user.username}}
+{% if profile_image and profile_image.url %}
+    <img src="{{profile_image.url}}" style="width: 20rem; height: 20rem;"/>
+{% endif %}
 <br>
 you have posted {{number_of_posts_made_by_user}} number of posts 
 <br>
 you have made {{number_of_likes_made_by_user}} number of likes 
 <br>
 you have received {{number_of_likes_received_for_user}} number of likes 
+<form method="POST" enctype="multipart/form-data" action="{% url 'upload_profile_image' %}">
+    {% csrf_token %}
+    <input type="file" name="profile_image" accept=".png, .jpg, .jpeg" >
+    <button type="submit">Submit</button>
+</form>
 {% endblock %}
 

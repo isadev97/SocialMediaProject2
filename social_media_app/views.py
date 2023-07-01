@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from social_media_app.models import User, Post, LikePost
+from social_media_app.models import User, Post, LikePost, Profile
 from django.contrib.auth.models import auth
 from django.contrib.auth.decorators import login_required
 
@@ -31,6 +31,7 @@ def sign_up_view(request):
         User.objects.create_user(username=username, email=email, password=password)
         user = auth.authenticate(username=username, password=password)
         if user:
+            Profile.objects.get_or_create(user=user)
             auth.login(request, user)
             return redirect("index")
         else:
@@ -47,6 +48,7 @@ def sign_in_view(request):
         password = request.POST['password']
         user = auth.authenticate(username=username, password=password)
         if user:
+            Profile.objects.get_or_create(user=user)
             auth.login(request, user)
             return redirect("index")
         else:
@@ -96,9 +98,20 @@ def my_profile_view(request):
     data = {
         "number_of_posts_made_by_user" : request.user.post.all().count(), # or Post.objects.filter(user=request.user).count()
         "number_of_likes_made_by_user": request.user.like_post.all().count(), # or LikePost.objects.filter(user=request.user).count()
-        "number_of_likes_received_for_user" : qs.count()
+        "number_of_likes_received_for_user" : qs.count(),
+        "profile_image": request.user.profile.image
     }
     return render(request, page_name, context=data)
+
+@login_required(login_url='sign_in')
+def upload_profile_image(request):
+    if request.method == 'GET':
+        return redirect("index")
+    image = request.FILES.get('profile_image', None)
+    profile = request.user.profile
+    profile.image = image 
+    profile.save()
+    return redirect("my_profile")
     
     
     
